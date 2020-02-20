@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<!--Webpage title-->
+	<title>Deliverable #5</title>
+	
+	<!--Define the variables/ functions-->
+	<script>
+		<!--Declare the array for the error message displaying area-->
+		var divs = [
+		  "errorFirstname", 
+		  "errorLastname", 
+		  "errorEmail",
+		];
+		
+		<!--Validate Fuction-->
+		function validate()
+		{
+			
+			var inputs = [];
+			inputs[0] = document.getElementById("fname").value;
+			inputs[1] = document.getElementById("lname").value;
+			inputs[2] = document.getElementById("email").value;
+
+			
+			<!--Declare the array for error messages-->
+			var errors = [];
+			errors[0] = "<span style='color:red'> Please enter your first name!</span>"
+			errors[1] = "<span style='color:red'> Please enter your last name!</span>"
+			errors[2] = "<span style='color:red'> Please enter your email address!</span>"
+
+			
+			<!--Input Validation-->
+			var i;
+			for (i=0; i<inputs.length; i++)
+			{
+				var errorMessage = errors[i];
+				var entry = divs[i];
+				
+				<!--If user puts a empty input-->
+				if (inputs[i] == "")
+					document.getElementById(entry).innerHTML = errorMessage;
+				else if (i == 2)
+				{
+					<!--User must have a valid email-->
+					var atpos = inputs[i].indexOf("@");  
+					var dotpos = inputs[i].lastIndexOf("."); 
+					
+					
+					if (atpos < 1 || dotpos < atpos + 2 || dotpos >= inputs[i].length)
+						document.getElementById(entry).innerHTML = "<span style = 'color:red' > Please enter a valid email address!</span>";
+					else
+						<!--Display messaige "OK!"-->
+						document.getElementById(entry).innerHTML = "OK!";
+				}
+				else
+				{
+					document.getElementById(entry).innerHTML = "OK!";
+				}
+			}
+		}
+		
+		<!--Validate after Submit-->
+		function finalValidate()
+		{
+			var i;
+			var flag = 1;
+			for (i=0; i<divs.length; i++)
+			{
+				<!--Check if all error messages are "OK!"-->
+				if (document.getElementById(divs[i]).innerHTML != "OK!")
+					flag = 0;
+			}
+			
+			if (flag == 1) <!---Display message if everything is OK->
+				document.getElementById("errorFinal").innerHTML = "All the data you entered is correct!"
+		}
+	</script>
+</head>
+
+<head>
+
+	<link rel="stylesheet" href="Deliverable_4_RM.css"> 
+
+</head>
+
+<body>
+	<h1 style="color:orange;">Customer Information</h1>
+	<table>
+		<tr>
+			<td> First Name:</td>
+			<td><input type="text" id="fname" onkeyup="validate();"/></td>
+			<td><div id="errorFirstname"></div></td>
+		</tr>
+		<tr>
+			<td> Last Name:</td>
+			<td><input type="text" id="lname" onkeyup="validate();"/></td>
+			<td><div id="errorLastname"></div></td>
+		</tr>
+		<tr>
+			<td> Email:</td>
+			<td><input type="text" id="email" onkeyup="validate();"/></td>
+			<td><div id="errorEmail"></div></td>
+		</tr>
+		<tr>
+			<td><input type="button" id="submit" value="Submit" onclick="validate();finalValidate();"/></td>
+			<td><div id="errorFinal"></div></td>
+		</tr>
+	</table>
+</body>
+
+
+</html>
